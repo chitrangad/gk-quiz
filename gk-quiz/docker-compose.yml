@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  quiz:
+    build: .
+    ports:
+      - "3005:3000"
+    volumes:
+      - /dockers/gk-quiz/gk-data:/app/data
+    restart: unless-stopped

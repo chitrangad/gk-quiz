@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "guest",
+      "password": "guest",
+      "scores": [],
+      "mathScores": []
+    },
+    {
+      "name": "SimGoel",
+      "password": "vifzAd-qynmir-3bukfi",
+      "scores": [],
+      "mathScores": []
+    },
+    {
+      "name": "SGoel",
+      "password": "sherman123",
+      "scores": [],
+      "mathScores": []
+    }
+  ]
+}

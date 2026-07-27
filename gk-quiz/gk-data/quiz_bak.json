@@ -1,0 +1,102 @@
+{
+  "users": [
+    {
+      "name": "kiana",
+      "password": "kiana0202",
+      "scores": [
+        {
+          "score": 5,
+          "date": "2026-06-30T01:51:51.813Z",
+          "type": "Music",
+          "difficulty": "easy"
+        },
+        {
+          "score": 3,
+          "date": "2026-07-01T19:55:41.341Z",
+          "type": "India",
+          "difficulty": "easy"
+        },
+        {
+          "score": 3,
+          "date": "2026-07-01T19:55:58.904Z",
+          "type": "India",
+          "difficulty": "easy"
+        },
+        {
+          "score": 3,
+          "date": "2026-07-01T19:56:23.820Z",
+          "type": "India",
+          "difficulty": "easy"
+        },
+        {
+          "score": 6,
+          "date": "2026-07-01T19:59:27.195Z",
+          "type": "India",
+          "difficulty": "any"
+        },
+        {
+          "score": 6,
+          "date": "2026-07-01T20:02:27.139Z",
+          "type": "Mathematics",
+          "difficulty": "easy"
+        },
+        {
+          "score": 3,
+          "date": "2026-07-02T13:59:47.669Z",
+          "type": "Film",
+          "difficulty": "easy"
+        }
+      ],
+      "mathScores": []
+    },
+    {
+      "name": "chits",
+      "password": "quiz123",
+      "scores": [
+        {
+          "score": 10,
+          "date": "2026-07-01T18:44:51.111Z",
+          "type": "India",
+          "difficulty": "any"
+        },
+        {
+          "score": 3,
+          "date": "2026-07-01T19:57:16.438Z",
+          "type": "India",
+          "difficulty": "easy"
+        },
+        {
+          "score": 10,
+          "date": "2026-07-02T10:15:28.204Z",
+          "type": "India",
+          "difficulty": "medium"
+        },
+        {
+          "score": 8,
+          "date": "2026-07-02T12:41:55.123Z",
+          "type": "Mathematics",
+          "difficulty": "easy"
+        },
+        {
+          "score": 8,
+          "date": "2026-07-08T03:14:32.145Z",
+          "type": "General",
+          "difficulty": "easy"
+        },
+        {
+          "score": 4,
+          "date": "2026-07-09T02:12:27.720Z",
+          "type": "Film",
+          "difficulty": "easy"
+        }
+      ],
+      "mathScores": []
+    },
+    {
+      "name": "guest",
+      "password": "guest",
+      "scores": [],
+      "mathScores": []
+    }
+  ]
+}

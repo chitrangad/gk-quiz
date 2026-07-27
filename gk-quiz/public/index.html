@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 GK Quiz & Math Trivia 🧮</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+  }
+ .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+  h1 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: #667eea;
+    font-size: 1.8em;
+  }
+  h2, h3 { margin-bottom: 12px; color: #333; font-size: 1.3em; }
+  button {
+    padding: 10px 16px;
+    margin: 4px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  button.active {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+  button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+  select, input {
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border 0.3s;
+    max-width: 100%;
+  }
+  select:focus, input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+ .nav {
+    margin-bottom: 20px;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+ .nav button {
+    flex: 1;
+    font-size: 14px;
+    min-width: 100px;
+    padding: 8px 12px;
+  }
+ .section { display: none; }
+ .section.active { display: block; animation: fadeIn 0.3s; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+ .problem {
+    margin: 15px 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+  }
+ .problem input { width: 100px; font-weight: bold; }
+ .math-answer { margin-left: 10px; }
+ .show-ans-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-left: 10px;
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+  }
+ .retry-btn {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    font-size: 16px;
+    padding: 12px 30px;
+  }
+ .answer-text {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  /* --- MODERN MATH ASSIGNMENT DESIGN (TABLET & MOBILE OPTIMIZED) --- */
+  .math-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .modern-math-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .modern-math-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  .math-q-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .math-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+  }
+  .modern-math-input {
+    width: 100%;
+    max-width: 130px;
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    text-align: center;
+    color: #334155;
+  }
+  .modern-math-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  }
+
+  /* --- ANTI-OVERFLOW LEADERBOARD TABLE LAYOUT --- */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 14px;
+    word-break: break-word;
+  }
+  th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+  }
+  tr:nth-child(even) { background: #f8f9fa; }
+  tr.rank-1 { background: #FFE5B4 !important; font-weight: bold; color: #5A4A42; }
+  tr.rank-2 { background: #E8E8E8 !important; font-weight: bold; color: #4A4A4A; }
+  tr.rank-3 { background: #F4C2C2 !important; font-weight: bold; color: #5A3A3A; }
+
+  /* Input states */
+  input.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+  input.incorrect { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+  
+  #authSection {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 8px;
+  }
+  #userInfo { font-size: 16px; font-weight: 600; color: #667eea; }
+  #quizArea { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0; }
+  #questionText { font-size: 1.1em; color: #333; margin-bottom: 15px; }
+  
+  #options button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 8px 0;
+    background: white;
+    color: #333;
+    border: 2px solid #e0e0e0;
+  }
+  #options button:hover { background: #667eea; color: white; border-color: #667eea; }
+  #score { font-size: 1.3em; font-weight: bold; color: #667eea; }
+
+  /* --- JIGSAW PUZZLE INTERACTION LAYOUT --- */
+  .jigsaw-layout {
+    background: #fcfcfc;
+    border: 3px dashed #764ba2;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+  }
+  .jigsaw-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .jigsaw-grid-containers {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .jigsaw-board-wrapper {
+    position: relative;
+  }
+  .jigsaw-board-target {
+    display: grid;
+    width: 400px;
+    height: 240px;
+    background: #e2e8f0;
+    border: 4px solid #333;
+    position: relative;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .jigsaw-preview-box {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    width: 90px;
+    height: 54px;
+    border: 2px solid #764ba2;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    object-fit: cover;
+    background: #ccc;
+  }
+  .jigsaw-cell-slot {
+    width: 100%;
+    height: 100%;
+    border: 1px dashed rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .jigsaw-pile-source {
+    width: 260px;
+    min-height: 240px;
+    background: #f1f5f9;
+    border: 3px dotted #cbd5e1;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: flex-start;
+    justify-content: center;
+  }
+  .jigsaw-tile {
+    cursor: grab;
+    border: 1px solid #1e293b;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    background-repeat: no-repeat;
+    user-select: none;
+    touch-action: none;
+  }
+  .jigsaw-tile:active { cursor: grabbing; }
+  .jigsaw-win-alert {
+    display: none;
+    margin-top: 15px;
+    background: #d4edda;
+    border: 2px solid #28a745;
+    color: #155724;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    animation: fadeIn 0.3s;
+  }
+
+  /* --- RESPONSIVE MEDIA QUERIES --- */
+  @media (max-width: 768px) {
+    .math-grid {
+      grid-template-columns: 1fr;
+    }
+    th, td {
+      padding: 10px 6px;
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .jigsaw-grid-containers { flex-direction: column; align-items: center; gap: 15px; }
+    .jigsaw-board-target { width: 320px; height: 192px; }
+    .jigsaw-pile-source { width: 100%; min-height: 140px; padding: 6px; }
+    .jigsaw-preview-box { top: -42px; width: 75px; height: 45px; }
+  }
+
+  @media (max-width: 480px) {
+    th, td {
+      padding: 8px 4px;
+      font-size: 11px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .jigsaw-board-target { width: 280px; height: 168px; }
+    .jigsaw-preview-box { top: -38px; width: 65px; height: 39px; }
+    h1 { font-size: 1.5em; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 GK Quiz & Math Practice 🧮</h1>
+    <h4 style="text-align: center; color: purple; margin-bottom: 10px;">Developed by Chitrangad</h4>
+
+    <div id="authSection">
+      <div id="loginForm">
+        <input type="text" id="username" placeholder="👤 Username">
+        <input type="password" id="password" placeholder="🔒 Password">
+        <button onclick="login()">🚀 Login</button>
+        <button onclick="showRegister()">✨ Register</button>
+      </div>
+      <div id="registerForm" style="display:none;">
+        <input type="text" id="regUsername" placeholder="👤 Username">
+        <input type="password" id="regPassword" placeholder="🔒 Password">
+        <input type="text" id="regSecret" placeholder="🔑 Secret">
+        <button onclick="register()">✅ Register</button>
+        <button onclick="showLogin()">⬅️ Back to Login</button>
+      </div>
+      <div id="userInfo" style="display:none;">
+        Welcome, <span id="currentUser"></span>! 🎉
+        <button onclick="logout()">👋 Logout</button>
+      </div>
+    </div>
+
+    <div class="nav" id="navTabs" style="display:none;">
+      <button id="quizTab" class="active" onclick="switchTab('quiz')">🎯 Quiz</button>
+      <button id="mathTab" onclick="switchTab('math')">🧮 Math Practice</button>
+      <button id="jigsawTab" onclick="switchTab('jigsaw')">🧩 Kid's Jigsaw (<span id="jigsawLevelIndicator">1/50</span>)</button>
+    </div>
+
+    <!-- Sections -->
+    <div id="quizSection" class="section">
+      <h2>🎯 Quiz</h2>
+      <select id="quizCategory"></select>
+      <select id="quizDifficulty"></select>
+      <button onclick="startQuiz()">▶️ Start Quiz</button>
+      <div id="quizArea" style="display:none;">
+        <h3 id="questionText"></h3>
+        <div id="options"></div>
+        <p style="margin-top:15px;">Score: <span id="score">0</span> ⭐</p>
+      </div>
+      <h3 style="margin-top: 25px;">🏆 Quiz Leaderboard</h3>
+      <div class="table-wrapper" id="quizLeaderboard"></div>
+    </div>
+
+    <div id="mathSection" class="section">
+      <h2>🧮 Math - 6th Grade Assignments</h2>
+      <select id="mathCategory"></select>
+      <select id="mathCount">
+        <option value="10">📝 10 Problems</option>
+        <option value="20" selected>📝 20 Problems</option>
+        <option value="30">📝 30 Problems</option>
+      </select>
+      <button onclick="generateMath()">✨ Generate Assignment</button>
+      <button id="printMath" style="display:none;" onclick="window.print()">🖨️ Print</button>
+      
+      <!-- Modernized Layout Container -->
+      <div class="math-grid" id="mathProblems"></div>
+      
+      <div style="margin-top: 15px;">
+        <button id="submitMath" style="display:none;" onclick="submitMath()">✅ Submit Answers</button>
+        <button id="retryMath" class="retry-btn" style="display:none;" onclick="retryMath()">🔄 Retry Wrong</button>
+      </div>
+      <h3 style="margin-top: 25px;">🏆 Math Leaderboard</h3>
+      <div class="table-wrapper" id="mathLeaderboard"></div>
+    </div>
+
+    <!-- JIGSAW SECTION -->
+    <div id="jigsawSection" class="section">
+      <h2>🧩 Dynamic Cartoon Jigsaw Puzzle</h2>
+      <div class="jigsaw-layout">
+        <div class="jigsaw-dashboard">
+          <button onclick="nextJigsawLevel()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 8px 12px; font-size:14px;">⏭️ Skip Level</button>
+          <div style="font-weight: bold; color: #764ba2; font-size: 0.95rem;"><span id="jigsawNameLabel">Loading...</span></div>
+        </div>
+
+        <div class="jigsaw-grid-containers">
+          <div class="jigsaw-board-wrapper">
+            <h5 style="text-align: center; margin-bottom: 5px; color:#444; font-size:13px;">Assemble Picture Here 👇</h5>
+            <img id="jigsawPreview" class="jigsaw-preview-box" src="" alt="Goal Preview" title="Target Goal Grid Reference" />
+            <div class="jigsaw-board-target" id="jigsawBoard"></div>
+          </div>
+          <div style="width: 100%; max-width: 400px;">
+            <h5 style="text-align: center; margin-bottom: 5px; color:#444; font-size:13px;">Pieces Pile 👇</h5>
+            <div class="jigsaw-pile-source" id="jigsawPile"></div>
+          </div>
+        </div>
+        <div class="jigsaw-win-alert" id="jigsawWinBanner">🎉 Magnificent! You solved the puzzle level completely! Next level unlocked! 🌟</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+let currentUser = null;
+let currentMathAssignment = [];
+let quizScore = 0;
+let currentQuestions = [];
+let currentQIndex = 0;
+let answeringBlocked = false;
+
+let currentTileW = 0;
+let currentTileH = 0;
+
+const jigsawPuzzles = [];
+const imageKeywords = ["nature", "animals", "space", "ocean", "castle", "dinosaur", "farm", "cartoon", "toy", "forest"];
+
+for (let i = 1; i <= 50; i++) {
+  let keyword = imageKeywords[(i - 1) % imageKeywords.length];
+  jigsawPuzzles.push({
+    level: i,
+    title: `Level ${i}: ${keyword.toUpperCase()}`,
+    url: `https://picsum.photos/400/240?sig=${i * 12}`
+  });
+}
+
+let activeJigsawIndex = 0;
+
+window.addEventListener('DOMContentLoaded', () => {
+  const savedUser = localStorage.getItem('quizUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    setupAuthenticatedUI();
+  }
+  
+  const pile = document.getElementById('jigsawPile');
+  pile.addEventListener('dragover', (e) => e.preventDefault());
+  pile.addEventListener('drop', handlePieceReturnToPile);
+});
+
+function setupAuthenticatedUI() {
+  document.getElementById('currentUser').textContent = currentUser;
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('userInfo').style.display = 'block';
+  document.getElementById('navTabs').style.display = 'flex';
+  document.getElementById('quizSection').classList.add('active');
+  loadQuizTypes();
+  loadQuizLeaderboard();
+  loadMathCategories();
+  loadMathLeaderboard();
+  buildJigsawLevel();
+}
+
+function showRegister() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'block';
+}
+
+function showLogin() {
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('registerForm').style.display = 'none';
+}
+
+async function register() {
+  const username = document.getElementById('regUsername').value;
+  const password = document.getElementById('regPassword').value;
+  const secret = document.getElementById('regSecret').value;
+  const r = await fetch('/api/register', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ username, password, secret })
+  });
+  const data = await r.json();
+  if (data.ok) { alert('✅ Registered! Please login.'); showLogin(); } else { alert('❌ ' + data.error); }
+}
+
+async function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const r = await fetch('/api/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ username, password })
+  });
+  const data = await r.json();
+  if (data.ok) { currentUser = data.username; localStorage.setItem('quizUser', currentUser); setupAuthenticatedUI(); } else { alert('❌ ' + data.error); }
+}
+
+function logout() { currentUser = null; localStorage.removeItem('quizUser'); location.reload(); }
+
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  if (tab === 'quiz') {
+    document.getElementById('quizSection').classList.add('active');
+    document.getElementById('quizTab').classList.add('active');
+  } else if (tab === 'math') {
+    document.getElementById('mathSection').classList.add('active');
+    document.getElementById('mathTab').classList.add('active');
+  } else if (tab === 'jigsaw') {
+    document.getElementById('jigsawSection').classList.add('active');
+    document.getElementById('jigsawTab').classList.add('active');
+    buildJigsawLevel();
+  }
+}
+
+function buildJigsawLevel() {
+  const currentPuzzle = jigsawPuzzles[activeJigsawIndex];
+  const currentLevel = activeJigsawIndex + 1;
+  
+  let rows = 3, cols = 3; 
+  if (currentLevel > 10 && currentLevel <= 25) { rows = 3; cols = 4; } 
+  if (currentLevel > 25 && currentLevel <= 40) { rows = 4; cols = 4; } 
+  if (currentLevel > 40) { rows = 4; cols = 5; } 
+
+  document.getElementById('jigsawLevelIndicator').textContent = `${currentLevel} / 50`;
+  document.getElementById('jigsawNameLabel').textContent = `${currentPuzzle.title} (${cols}x${rows})`;
+  document.getElementById('jigsawWinBanner').style.display = 'none';
+  document.getElementById('jigsawPreview').src = currentPuzzle.url;
+
+  const board = document.getElementById('jigsawBoard');
+  const pile = document.getElementById('jigsawPile');
+  board.innerHTML = '';
+  pile.innerHTML = '';
+
+  board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  board.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+  const boardBounds = board.getBoundingClientRect();
+  const boardWidth = boardBounds.width || (window.innerWidth <= 360 ? 280 : window.innerWidth <= 700 ? 320 : 400);
+  const boardHeight = boardBounds.height || (window.innerWidth <= 360 ? 168 : window.innerWidth <= 700 ? 192 : 240);
+  
+  currentTileW = boardWidth / cols;
+  currentTileH = boardHeight / rows;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const slot = document.createElement('div');
+      slot.className = 'jigsaw-cell-slot';
+      slot.dataset.row = r;
+      slot.dataset.col = c;
+
+      slot.addEventListener('dragover', (e) => e.preventDefault());
+      slot.addEventListener('drop', handlePieceDrop);
+      board.appendChild(slot);
+    }
+  }
+
+  let piecesData = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      let xPos = cols > 1 ? (c / (cols - 1)) * 100 : 0;
+      let yPos = rows > 1 ? (r / (rows - 1)) * 100 : 0;
+      piecesData.push({ r, c, bgPos: `${xPos}% ${yPos}%` });
+    }
+  }
+
+  piecesData.sort(() => Math.random() - 0.5);
+
+  piecesData.forEach((data, index) => {
+    const tile = document.createElement('div');
+    tile.className = 'jigsaw-tile';
+    tile.id = `tile-idx-${index}`; 
+    tile.draggable = true;
+    tile.style.width = `${currentTileW}px`;
+    tile.style.height = `${currentTileH}px`;
+    tile.style.backgroundImage = `url('${currentPuzzle.url}')`;
+    tile.style.backgroundPosition = data.bgPos;
+    tile.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
+    tile.dataset.correctRow = data.r;
+    tile.dataset.correctCol = data.c;
+
+    tile.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', tile.id);
+    });
+
+    setupMobileTouchDragging(tile);
+    pile.appendChild(tile);
+  });
+}
+
+function handlePieceDrop(e) {
+  e.preventDefault();
+  const tileId = e.dataTransfer.getData('text/plain');
+  const tile = document.getElementById(tileId);
+  if (!tile) return;
+
+  const targetSlot = e.currentTarget;
+  if (targetSlot.children.length === 0) {
+    targetSlot.appendChild(tile);
+    tile.style.width = "100%";
+    tile.style.height = "100%";
+    tile.style.margin = "0";
+    checkJigsawCompletion();
+  }
+}
+
+function handlePieceReturnToPile(e) {
+  e.preventDefault();
+  const tileId = e.dataTransfer.getData('text/plain');
+  const tile = document.getElementById(tileId);
+  if (!tile) return;
+
+  const pile = document.getElementById('jigsawPile');
+  tile.style.width = `${currentTileW}px`;
+  tile.style.height = `${currentTileH}px`;
+  pile.appendChild(tile);
+  checkJigsawCompletion();
+}
+
+let activeDraggedTouchTile = null;
+
+function setupMobileTouchDragging(tile) {
+  tile.addEventListener('touchstart', (e) => {
+    activeDraggedTouchTile = tile;
+    e.preventDefault();
+  }, { passive: false });
+
+  tile.addEventListener('touchmove', (e) => {
+    if (!activeDraggedTouchTile) return;
+    e.preventDefault();
+  }, { passive: false });
+
+  tile.addEventListener('touchend', (e) => {
+    if (!activeDraggedTouchTile) return;
+    
+    const touchCoord = e.changedTouches[0];
+    const baseDisplay = activeDraggedTouchTile.style.display;
+    activeDraggedTouchTile.style.display = 'none';
+    const landingElement = document.elementFromPoint(touchCoord.clientX, touchCoord.clientY);
+    activeDraggedTouchTile.style.display = baseDisplay;
+
+    if (landingElement) {
+      const dropSlot = landingElement.closest('.jigsaw-cell-slot');
+      const pileContainer = landingElement.closest('#jigsawPile');
+
+      if (dropSlot && dropSlot.children.length === 0) {
+        dropSlot.appendChild(activeDraggedTouchTile);
+        activeDraggedTouchTile.style.width = "100%";
+        activeDraggedTouchTile.style.height = "100%";
+        activeDraggedTouchTile.style.margin = "0";
+        checkJigsawCompletion();
+      } else if (pileContainer) {
+        activeDraggedTouchTile.style.width = `${currentTileW}px`;
+        activeDraggedTouchTile.style.height = `${currentTileH}px`;
+        pileContainer.appendChild(activeDraggedTouchTile);
+        checkJigsawCompletion();
+      }
+    }
+    
+    activeDraggedTouchTile = null;
+  });
+}
+
+function checkJigsawCompletion() {
+  const slots = document.querySelectorAll('.jigsaw-cell-slot');
+  let completelyCorrect = true;
+
+  slots.forEach(slot => {
+    if (slot.children.length === 0) {
+      completelyCorrect = false;
+    } else {
+      const tile = slot.children[0];
+      if (parseInt(tile.dataset.correctRow) !== parseInt(slot.dataset.row) || parseInt(tile.dataset.correctCol) !== parseInt(slot.dataset.col)) {
+        completelyCorrect = false;
+      }
+    }
+  });
+
+  if (completelyCorrect) {
+    document.getElementById('jigsawWinBanner').style.display = 'block';
+  }
+}
+
+function nextJigsawLevel() {
+  activeJigsawIndex = (activeJigsawIndex + 1) % jigsawPuzzles.length;
+  buildJigsawLevel();
+}
+
+async function loadQuizTypes() {
+  const r = await fetch('/api/quiztypes');
+  const data = await r.json();
+  document.getElementById('quizCategory').innerHTML = Object.keys(data.categories).map(c => `<option value="${c}">${c}</option>`).join('');
+  document.getElementById('quizDifficulty').innerHTML = data.difficulties.map(d => `<option value="${d}">${d}</option>`).join('');
+}
+
+async function startQuiz() {
+  const type = document.getElementById('quizCategory').value;
+  const difficulty = document.getElementById('quizDifficulty').value;
+  const r = await fetch(`/api/questions?type=${type}&difficulty=${difficulty}&amount=10`);
+  currentQuestions = await r.json();
+  currentQIndex = 0; quizScore = 0;
+  document.getElementById('score').textContent = '0';
+  document.getElementById('quizArea').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQIndex >= currentQuestions.length) { endQuiz(); return; }
+  const q = currentQuestions[currentQIndex];
+  document.getElementById('questionText').innerHTML = `❓ ${q.q}`;
+  document.getElementById('options').innerHTML = q.options.map((opt, i) => `<button onclick="answer(${i})">${opt}</button>`).join('');
+  answeringBlocked = false;
+}
+
+async function answer(choice) {
+  if (answeringBlocked) return;
+  answeringBlocked = true;
+  const q = currentQuestions[currentQIndex];
+  const buttons = document.querySelectorAll('#options button');
+  buttons.forEach(btn => btn.disabled = true);
+
+  if (choice === q.a) {
+    quizScore++;
+    document.getElementById('score').textContent = quizScore;
+    buttons[choice].style.background = 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)';
+  } else {
+    buttons[choice].style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+    buttons[q.a].style.background = 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)';
+  }
+  setTimeout(() => { currentQIndex++; showQuestion(); }, 1500);
+}
+
+async function endQuiz() {
+  const type = document.getElementById('quizCategory').value;
+  const difficulty = document.getElementById('quizDifficulty').value;
+  await fetch('/api/score', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ user: currentUser, score: quizScore, date: new Date().toISOString(), type, difficulty })
+  });
+  alert(`🎉 Quiz complete! Score: ${quizScore}/10 ⭐`);
+  document.getElementById('quizArea').style.display = 'none';
+  loadQuizLeaderboard();
+}
+
+async function loadQuizLeaderboard() {
+  const r = await fetch('/api/leaderboard');
+  const board = await r.json();
+  document.getElementById('quizLeaderboard').innerHTML = `<table><thead><tr><th>🏅 Rank</th><th>👤 User</th><th>🎮 Games</th><th>📊 Avg</th><th>⭐ Best</th><th>🎯 Total</th></tr></thead><tbody>${board.map((b,i) => `<tr class="${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':''}"><td>${i+1}</td><td>${b.user}</td><td>${b.games}</td><td>${b.avg}</td><td>${b.best}</td><td>${b.total}</td></tr>`).join('')}</tbody></table>`;
+}
+
+async function loadMathCategories() {
+  const r = await fetch('/api/math-categories');
+  const data = await r.json();
+  document.getElementById('mathCategory').innerHTML = Object.keys(data.categories).map(c => `<option value="${data.categories[c]}">${c}</option>`).join('');
+}
+
+async function generateMath() {
+  const type = document.getElementById('mathCategory').value;
+  const count = document.getElementById('mathCount').value;
+  const r = await fetch(`/api/math-assignment?type=${type}&count=${count}`);
+  const data = await r.json();
+  currentMathAssignment = data.problems;
+
+  document.getElementById('mathProblems').innerHTML = data.problems.map(p => `
+    <div class="modern-math-card" id="problem-${p.id}">
+      <div class="math-q-text"><strong>Problem ${p.id + 1}:</strong><br>${p.q}</div>
+      <div class="math-input-group">
+        <input type="text" data-id="${p.id}" class="modern-math-input math-answer" placeholder="Answer">
+        <button class="show-ans-btn" data-id="${p.id}" style="display:none;" onclick="toggleAnswer(${p.id})">👁️ Show</button>
+        <span class="answer-text" id="answer-${p.id}" style="display:none; color:#d32f2f;"></span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('submitMath').style.display = 'inline-block';
+  document.getElementById('submitMath').disabled = false;
+  document.getElementById('printMath').style.display = 'inline-block';
+}
+
+async function submitMath() {
+  let correct = 0;
+  document.querySelectorAll('.math-answer').forEach(input => {
+    const id = parseInt(input.dataset.id);
+    if (input.value.trim() === String(currentMathAssignment[id].answer)) {
+      correct++; input.classList.add('correct');
+    } else {
+      input.classList.add('incorrect');
+      document.getElementById(`answer-${id}`).textContent = `Correct: ${currentMathAssignment[id].answer}`;
+      document.getElementById(`answer-${id}`).style.display = 'inline';
+    }
+    input.disabled = true;
+  });
+  document.getElementById('submitMath').disabled = true;
+  loadMathLeaderboard();
+}
+
+async function loadMathLeaderboard() {
+  const r = await fetch('/api/math-leaderboard');
+  const board = await r.json();
+  document.getElementById('mathLeaderboard').innerHTML = `<table><thead><tr><th>🏅 Rank</th><th>👤 User</th><th>📝 Assignments</th><th>📊 Avg %</th></tr></thead><tbody>${board.map((b,i) => `<tr class="${i===0?'rank-1':''}"><td>${i+1}</td><td>${b.user}</td><td>${b.assignments}</td><td>${b.avg}%</td></tr>`).join('')}</tbody></table>`;
+}
+</script>
+</body>
+</html>
